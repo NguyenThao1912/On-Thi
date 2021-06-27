@@ -52,7 +52,7 @@ public class NguyenHuuLuan_Adapter extends BaseAdapter implements Filterable {
 
         // Gán dữ liệu
         txt_ID.setText(String.valueOf(data.get(position).getId()));
-        txt_Name.setText(data.get(position).getname());
+        txt_Name.setText(data.get(position).getName());
         txt_PhoneNumber.setText(data.get(position).getPhonenumber());
 
         return v;
@@ -74,7 +74,7 @@ public class NguyenHuuLuan_Adapter extends BaseAdapter implements Filterable {
                 else
                 {
                     for (Contact_NguyenHuuLuan r:data) {
-                        if (r.getname().toLowerCase().contains(constraint)) {
+                        if (r.getName().toLowerCase().contains(constraint)) {
                             filter.add(r);
                         }
                     }

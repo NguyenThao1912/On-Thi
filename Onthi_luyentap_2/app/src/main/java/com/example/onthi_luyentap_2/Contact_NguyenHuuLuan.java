@@ -3,6 +3,7 @@ package com.example.onthi_luyentap_2;
 import java.io.Serializable;
 
 public class Contact_NguyenHuuLuan implements  Comparable<Contact_NguyenHuuLuan>,Serializable {
+    // TODO Câu 1
     private int id;
     private String name;
     private String phonenumber;
@@ -24,7 +25,7 @@ public class Contact_NguyenHuuLuan implements  Comparable<Contact_NguyenHuuLuan>
         this.id = id;
     }
 
-    public String getname() {
+    public String getName() {
         return name;
     }
 
@@ -39,6 +40,7 @@ public class Contact_NguyenHuuLuan implements  Comparable<Contact_NguyenHuuLuan>
     public void setPhonenumber(String phonenumber) {
         this.phonenumber = phonenumber;
     }
+
     public String GetFirstName()
     {
         int lastspace = name.lastIndexOf(" ");

@@ -44,10 +44,6 @@ public class MainActivity extends AppCompatActivity {
         listView = findViewById(R.id.listview);
         btn = findViewById(R.id.btnadd);
 
-
-
-
-
         // sự kiện nhập vào thanh tìm kiếm
         searchView.addTextChangedListener(new TextWatcher() {
             @Override
@@ -72,22 +68,8 @@ public class MainActivity extends AppCompatActivity {
         //Khai báo lớp sử dụng SQLITE
         db = NguyenHuuLuan_SQLite.getInstance(this);
 
-        setdata();
         //Đọc dữ liệu từ SQL
         GetData();
-    }
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        if (v.getId() == R.id.listview) {
-            ListView lv = (ListView) v;
-            AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) menuInfo;
-            Contact_NguyenHuuLuan obj = (Contact_NguyenHuuLuan) lv.getItemAtPosition(acmi.position);
-
-            //Thêm Menu Title
-            menu.add("NguyễnHữuLuân_Edit");
-            menu.add("NguyễnHữuLuân_Delete");
-        }
     }
 
     private void GetData() {
@@ -99,28 +81,28 @@ public class MainActivity extends AppCompatActivity {
         adapter = new NguyenHuuLuan_Adapter(data,this);
         listView.setAdapter(adapter);
     }
+    // TODO Câu 4
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        if (v.getId() == R.id.listview) {
+            ListView lv = (ListView) v;
+            AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) menuInfo;
+            Contact_NguyenHuuLuan obj = (Contact_NguyenHuuLuan) lv.getItemAtPosition(acmi.position);
 
-    //Khởi tạo dữ liệu cho SQL LITE
-    private void setdata() {
-        Contact_NguyenHuuLuan object1 = new Contact_NguyenHuuLuan(1,"Luân Nguyễn Hữu","0123456778");
-        Contact_NguyenHuuLuan object2 = new Contact_NguyenHuuLuan(2,"Hữu Luân","01452456778");
-        Contact_NguyenHuuLuan object3 = new Contact_NguyenHuuLuan(3,"Luân Nguyễn","012342346778");
-        Contact_NguyenHuuLuan object4 = new Contact_NguyenHuuLuan(4,"Nguyễn Luân","012345378");
-        Contact_NguyenHuuLuan object5 = new Contact_NguyenHuuLuan(5,"Nguyễn Hữu Luân","0123356778");
-        Contact_NguyenHuuLuan object6 = new Contact_NguyenHuuLuan(6,"Khôi Ngô","0123456778");
-
-        db.insert(object1);
-        db.insert(object2);
-        db.insert(object3);
-        db.insert(object4);
-        db.insert(object5);
-        db.insert(object6);
+            //Thêm Menu Title
+            // TODO Câu 4
+            // 4.1 Thêm các nút trên MENU
+            menu.add("NguyễnHữuLuân_Edit");
+            menu.add("NguyễnHữuLuân_Delete");
+        }
     }
+    // TODO CÂU 4
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         //Lấy vị trí item
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         int position = info.position;
+        // 4.1 Sự kiện click nút xóa
         //Nếu Title là Xóa
         if(item.getTitle().equals("NguyễnHữuLuân_Delete"))
         {
@@ -149,20 +131,27 @@ public class MainActivity extends AppCompatActivity {
             AlertDialog alertDialog = alertDialogBuilder.create();
             alertDialog.show();
         }
-        //Ngược lại nếu là Sửa
+        //4.2 sự kiện click nut EDit
         else {
+            // TODO Câu 5
+            // tạo intent
             Intent intent = new Intent(this, Edit.class);
+            // thêm dữ liệu muốn chuyển sang màn hình edit với key = object
             intent.putExtra("object",data.get(position));
+            // bật màn hình mới
             activityLaucher.launch(intent);
         }
         return super.onContextItemSelected(item);
     }
+
     // CALL BACK Start activity for result
     ActivityResultLauncher<Intent> activityLaucher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
                 @Override
                 public void onActivityResult(ActivityResult result) {
+                    // TODO Câu 5 call back sau khi trở về màn hình Main
+
                     GetData();
                 }
             });

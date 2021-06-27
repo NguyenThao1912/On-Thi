@@ -21,9 +21,14 @@ public class Add extends AppCompatActivity implements View.OnClickListener {
         setContentView(R.layout.activity_add);
 
         setWidget();
+        // TODO CÂU 4
+        // 4.3 Tên người làm
         credits.setText("Nguyễn Hữu Thảo");
-        db = new NguyenHuuThao_SQLite(this);
 
+        //khởi tạo csdl
+        db = NguyenHuuThao_SQLite.getInstance(this);
+
+        // Câu 5 thêm sự kiện click
         btnAdd.setOnClickListener(this);
         btnCancel.setOnClickListener(this);
     }
@@ -37,31 +42,33 @@ public class Add extends AppCompatActivity implements View.OnClickListener {
         btnAdd              = findViewById(R.id.btnAdd);
         btnCancel           = findViewById(R.id.btnCancel);
     }
-    //TODO Xử lý sự kiện
+    //TODO 5. Xử lý sự kiện
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            //Xử lý sự kiện nút ADD
+            // 5.1 Xử lý sự kiện nút ADD
             case R.id.btnAdd:{
                 String id           = contact_id.getText().toString();
                 String name         = contact_name.getText().toString();
                 String phonenumber  = contact_phonenumber.getText().toString();
 
                 Contact_NguyenHuuThao user =  validate(id,name,phonenumber);
+                // Nếu dữ liệu hợp lệ thì ta thêm vào CSDL
                 if (user != null) {
                     Toast.makeText(this, "Thêm Dữ liệu thành công", Toast.LENGTH_SHORT).show();
                     db.insert(user);
+                    // trở về màn hình trước
                     finish();
                 }
                 break;
             }
-            // Xử lý sự kiện nút Cancel
+            // 5.2 Xử lý sự kiện nút Back
             case R.id.btnCancel:{
                 finish();
             }
         }
     }
-    // TODO Hàm Kiểm Tra
+    // TODO 5.0 Hàm Kiểm Tra trả về một đối tượng nếu dữ liệu hợp lệ ngược lại trả về null
     private Contact_NguyenHuuThao validate(String id,String name,String phonenumber)
     {
         if (id.matches("[a-zA-Z]"))

@@ -25,28 +25,31 @@ import android.widget.SearchView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.Collections;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    //Khai báo biến
     public static int REQUEST_CODE = 1;
     private EditText searchView;
     private ListView listView;
     private NguyenHuuThao_Adapter adapter;
     private List<Contact_NguyenHuuThao> data;
     private FloatingActionButton btn;
-    private NguyenHuuThao_SQLite db;        // Lớp truy xuất SQL
+    private NguyenHuuThao_SQLite db;            //  khai báo Lớp truy xuất SQL
  
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         //Ánh xạ view
         searchView = findViewById(R.id.search);
         listView = findViewById(R.id.listview);
         btn = findViewById(R.id.btnadd);
 
-
+        //TODO Câu 4
         btn.setOnClickListener(v -> openSomeActivityForResult());
 
 
@@ -74,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
         //Khai báo lớp sử dụng SQLITE
         db = NguyenHuuThao_SQLite.getInstance(this);
 
-        setdata();
         //Đọc dữ liệu từ SQL
         GetData();
     }
@@ -91,30 +93,18 @@ public class MainActivity extends AppCompatActivity {
             menu.add("Xóa");
         }
     }
-
+    // TODO Câu 3
     private void GetData() {
         data = db.getALL();
         adapter = null;
+        // 3.3 Sắp xếp danh sách
+        Collections.sort(data);
+        // Nếu sắp xếp tăng dần tên
+        // Collections.reverse(data);
         adapter = new NguyenHuuThao_Adapter(data,this);
         listView.setAdapter(adapter);
     }
 
-    //Khởi tạo dữ liệu cho SQL LITE
-    private void setdata() {
-        Contact_NguyenHuuThao object1 = new Contact_NguyenHuuThao(1,"Ân Vinh","0123456778");
-        Contact_NguyenHuuThao object2 = new Contact_NguyenHuuThao(2,"Quan Loan","01452456778");
-        Contact_NguyenHuuThao object3 = new Contact_NguyenHuuThao(3,"Lân Vũ","012342346778");
-        Contact_NguyenHuuThao object4 = new Contact_NguyenHuuThao(4,"Nguyễn Hữu Thảo","012345378");
-        Contact_NguyenHuuThao object5 = new Contact_NguyenHuuThao(5,"Vân Vận","0123356778");
-        Contact_NguyenHuuThao object6 = new Contact_NguyenHuuThao(6,"Khôi Ngô","0123456778");
-
-        db.insert(object1);
-        db.insert(object2);
-        db.insert(object3);
-        db.insert(object4);
-        db.insert(object5);
-        db.insert(object6);
-    }
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         //Lấy vị trí item
@@ -154,18 +144,23 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onContextItemSelected(item);
     }
-    // CALL BACK Start activity for result
+
+    // TODO Câu 4
+    // 4.1 hàm Call back giống Hàm OnActivityResult
     ActivityResultLauncher<Intent> activityLaucher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
                 @Override
                 public void onActivityResult(ActivityResult result) {
+                    // Do chỉ có 1 màn hình nên có thể k cần thiết kiểm tra if requestcode , if result code
                     GetData();
                 }
             });
-
+    // 4.2 Mở màn hình Mới
     public void openSomeActivityForResult() {
+        // Khởi tạo intent
         Intent intent = new Intent(this, Add.class);
+        // Mở màn hình Mới
         activityLaucher.launch(intent);
     }
 }

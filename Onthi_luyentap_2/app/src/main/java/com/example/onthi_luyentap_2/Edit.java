@@ -25,11 +25,15 @@ public class Edit extends AppCompatActivity implements View.OnClickListener{
         setWidget();
         credits.setText("Nguyễn Hữu Luân");
         db = new NguyenHuuLuan_SQLite(this);
+        // TODO Câu 5
+        // 5.1 lấy dữ liệu ở màn hình trước gửi sang với key = object
         contact = (Contact_NguyenHuuLuan) getIntent().getSerializableExtra("object");
         contact_id.setText(""+contact.getId());
         contact_id.setActivated(false);
-        contact_name.setText(contact.getname());
+        contact_name.setText(contact.getName());
         contact_phonenumber.setText(contact.getPhonenumber());
+
+        // 5.2 set sự kiện click
         btnAdd.setOnClickListener(this);
         btnCancel.setOnClickListener(this);
     }
@@ -47,27 +51,29 @@ public class Edit extends AppCompatActivity implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            //Xử lý sự kiện nút ADD
+            // 5.3 Xử lý sự kiện nút ADD
             case R.id.btnEdit:{
                 String id           = contact_id.getText().toString();
                 String name         = contact_name.getText().toString();
                 String phonenumber  = contact_phonenumber.getText().toString();
 
                 Contact_NguyenHuuLuan user =  validate(id,name,phonenumber);
+                // 5.3.1 Nếu dữ liệu hợp lệ ta thực hiện sửa đổi
                 if (user != null) {
                     Toast.makeText(this, "Thêm Dữ liệu thành công", Toast.LENGTH_SHORT).show();
                     db.edit(user);
+                    // quay lại màn hình trước
                     finish();
                 }
                 break;
             }
-            // Xử lý sự kiện nút Cancel
+            // 5.4 Xử lý sự kiện nút Cancel
             case R.id.btnCancel:{
                 finish();
             }
         }
     }
-    // TODO Hàm Kiểm Tra
+    // TODO 5.0 Hàm Kiểm Tra trả về một đối tượng nếu dữ liệu hợp lệ ngược lại trả về null
     private Contact_NguyenHuuLuan validate(String id,String name,String phonenumber)
     {
         if (id.matches("[a-zA-Z]"))
